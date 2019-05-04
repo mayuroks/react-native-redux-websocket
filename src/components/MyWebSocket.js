@@ -4,6 +4,7 @@ import ws from '../socket';
 
 class MyWebSocket extends Component {
     componentDidMount() {
+        // App in foreground, start the connection
         ws.onerror = (e) => {
             console.log("ws error", e);
         }
@@ -18,6 +19,7 @@ class MyWebSocket extends Component {
     }
 
     componentWillUnmount() {
+        // App in background, close the connection
         ws.close();
     }
 }

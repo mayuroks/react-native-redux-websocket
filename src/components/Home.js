@@ -30,13 +30,12 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        // Component specific event listeners
         ws.addEventListener('open', event => {
-            // ws.send("Socket opened");
             console.log("ws message received", event.data);
             this.props.recieveMsg(event.data);
         });
 
-        // Can it be component specific?
         ws.addEventListener('message', event => {
             console.log("ws message received", event.data);
             this.props.recieveMsg(event.data);
