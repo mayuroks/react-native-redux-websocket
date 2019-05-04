@@ -6,20 +6,19 @@ import {
     TouchableOpacity,
     TextInput
 } from 'react-native';
-import MyWebSocket from './MyWebSocket';
-import ws from '../socket';
+import ws, { WS_URL } from '../socket';
 import { sendMsg, recieveMsg } from '../actions';
 import { connect } from 'react-redux';
 
-class SomeScreen extends Component {
+class Home extends Component {
 
     state = {
-        input: 'default'
+        input: ''
     }
 
     constructor(props) {
         super(props);
-        console.log("SomeScreen", props);
+        console.log("Home", props);
     }
 
     _sendMsg(msg) {
@@ -51,27 +50,43 @@ class SomeScreen extends Component {
 
         return (
             <View style={styles.container}>
+                <Text
+                    style={styles.header}
+                >
+                    WebSocket Echo
+                </Text>
+                <Text
+                    style={styles.received}
+                >
+                    WebSocket Server: {"\n"}{WS_URL}
+                </Text>
+                <Text
+                    style={styles.received}
+                >
+                    Sent on WebSocket: {"\n"}
+                </Text>
                 <TextInput
                     style={styles.editText}
                     onChangeText={this._changeText.bind(this)}
                 >
                 </TextInput>
                 <TouchableOpacity
+                    style={styles.buttonContainer}
                     onPress={this._sendMsg.bind(this, msg)}
                 >
                     <Text
-                        style={styles.welcome}
+                        style={styles.button}
                     >
-                        Click to send message
+                        Send
                     </Text>
                 </TouchableOpacity>
                 <Text
                     style={styles.received}
                 >
-                    Message from WebSocket:{"\n"}
+                    Received from WebSocket:{"\n\n"}
                     {receivedMsg}
                 </Text>
-                
+
             </View>
         );
     }
@@ -95,30 +110,52 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'lightblue',
+        backgroundColor: '#512DA8',
     },
-    welcome: {
-        fontSize: 18,
-        marginTop: 20
+    button: {
+        fontSize: 20,
+        borderRadius: 50,
+        color: 'white',
+        fontWeight: '800'
+    },
+    buttonContainer: {
+        backgroundColor: '#8BC34A',
+        borderRadius: 8,
+        padding: 16,
+        marginTop: 16
     },
     received: {
-        marginTop: 80,
-        fontSize: 18
+        marginTop: 40,
+        fontSize: 24,
+        color: 'white',
+        alignSelf: 'stretch',
+        marginLeft: 20,
+        marginRight: 20
+    },
+    header: {
+        fontSize: 36,
+        color: 'white',
+        alignSelf: 'stretch',
+        marginLeft: 20,
+        marginRight: 20,
+        fontWeight: '800'
     },
     editText: {
         height: 40,
         backgroundColor: '#f5f5f5',
-        color: 'red',
+        color: 'black',
         fontSize: 18,
         alignSelf: 'stretch',
-        marginLeft: 40,
-        marginRight: 40
+        marginLeft: 20,
+        marginRight: 20,
+        borderRadius: 8,
+        height: 60,
     }
 });
